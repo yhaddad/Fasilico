@@ -1,0 +1,10 @@
+#! /bin/bash
+
+#source env.sh
+export MCFastSim=${PWD}
+export PATH=$PATH:${MCFastSim}/scripts
+export MARLIN_DLL=$PWD/lib/libFastSim.so
+
+
+
+#export MARLIN_DLL=$PWD/lib/libPrintHit.so:/home/llr/ilc/ruan/MarlinTools/MarlinDigi/lib/libRPCDHCALCaloDigi.so
