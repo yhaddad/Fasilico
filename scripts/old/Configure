@@ -1,0 +1,25 @@
+#! /bin/sh
+
+
+echo "============================================================"
+echo "=                 Generate a dictionary for                ="
+echo "============================================================"
+
+
+#cd ${PWD}/src/
+
+if [ -e ${PWD}/src/rootdict.cc ]; then
+    echo "The file rootdict.cc is allrady exist .."
+    rm ${PWD}/src/rootdict.*
+    rootcint ${PWD}/src/rootdict.cc -c ${PWD}/include/MCEvent.h ${PWD}/include/MCEventLinkDef.h
+else
+    echo "Create a new dictionary rootdict.cc .."
+    rootcint ${PWD}/src/rootdict.cc -c ${PWD}/include/MCEvent.h ${PWD}/include/MCEventLinkDef.h
+    
+fi
+
+echo "============================================================"
+
+
+
+

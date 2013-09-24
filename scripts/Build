@@ -1,26 +1,55 @@
 #! /bin/sh
 
+if [ -z "$ILCSOFT" ]; then
+    echo " You should source an init_ilcsoft.sh script"
+    exit
+fi
 
-echo "============================================================"
-echo "=                 Build Makefile for compilation           ="
-echo "============================================================"
+mkbuild()
+{
+    if [ -d build ]; then
+	rm -r build
+    fi
+    mkdir build
+}
 
-echo "  Move frome directory :"
-echo ${PWD}
-echo "  to the directory     :"
-cd ${PWD}/build
-echo ${PWD}
-
-if [ -e ${PWD}/Makefile ]; then
-    echo "  The Makefile is allrady exist .."
-    rm -rf *
+build()
+{
+    echo "============================================================"
+    echo "=                 Build Makefile for compilation           ="
+    echo "============================================================"    
+    echo "---------->  Create a new Makefile  .. "
+    cd ${PWD}/build
     cmake -C ${ILCSOFT}/ILCSoft.cmake ..
     ls -lthr
-else
-    echo "  Create a new Makefile  .. "
-    cmake -C ${ILCSOFT}/ILCSoft.cmake ..
-    ls -lthr
-fi    
+    cd ${PWD}/..
+}
+
+compile()
+{
+    echo "============================================================"
+    echo "=                      Compilation                         ="
+    echo "============================================================"
+    echo "---------->  Compilation  .. "
+    cd ${PWD}/build
+    make install
+    cd ${PWD}/..
+}
+
+#The script
+
+#WHAT=$1
+#
+#if [ "$WHAT" == "Full" ]; then
+#    generateRootDict
+#    CreateBuildDir
+#    cd build
+#    CreateMakefile
+#    cd ..
+#fi
+#
+#cd build
+#Compile
+#echo " Compilation done"
 
 
-echo "============================================================"
