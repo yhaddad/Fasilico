@@ -1,0 +1,8 @@
+#!/bin/bash
+
+#unset $MARLIN_DLL
+export Fasilico=${PWD}
+export PATH=$PATH:${Fasilico}/scripts
+export MARLIN_DLL=$MARLIN_DLL:$Fasilico/lib/libFasilico.so
+
+source scripts/Build
