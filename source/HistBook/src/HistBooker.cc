@@ -15,6 +15,7 @@ HistBooker::HistBooker()
 {
   std::cout << " ================================" << std::endl
 	    << " = Histogram booker version 2.0 =" << std::endl
+	    << " =         Y.Haddad             =" << std::endl
 	    << " ================================" << std::endl;
   
   _map_h1.clear();
@@ -41,9 +42,9 @@ TH1* HistBooker::book_h1(std::string name,int nbin,double xmin,double xmax)
   std::string sname = name_title[0]; 
   std::string title = name_title[1]; 
   
-  //std::cout << "name == " << name.c_str() << std::endl;
-  //std::cout << "sname == " << sname.c_str() << std::endl;
-  //std::cout << "title == " << title.c_str() << std::endl;
+  // std::cout << "name  == " << name.c_str()  << std::endl;
+  // std::cout << "sname == " << sname.c_str() << std::endl;
+  // std::cout << "title == " << title.c_str() << std::endl;
   
   if(_map_h1.find(sname)!=_map_h1.end()){
     return _map_h1[sname]; 
@@ -126,7 +127,9 @@ TH3* HistBooker::get_h3(std::string name)
 } 
 
 
-TH1* HistBooker::book_profile1(std::string name,int nbinx,double xmin,double xmax,double ymin,double ymax)
+TH1* HistBooker::book_profile1(std::string name,int nbinx,
+			       double xmin,double xmax,
+			       double ymin,double ymax)
 {
   
   std::vector<std::string> name_title;

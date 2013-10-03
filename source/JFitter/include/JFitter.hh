@@ -1,0 +1,77 @@
+/** JFitter.hh --- 		
+ *
+ * Copyright (C) 2013 Y. Haddad
+ *
+ * Author: Y. Haddad <hadddad@yacine>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2, or (at
+ * your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; see the file COPYING.  If not, write to
+ * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
+ */
+
+
+#ifndef JFitter_hh
+#define JFitter_hh 1
+
+#include <string>
+#include <iostream>
+#include <EVENT/LCCollection.h>
+#include <vector>
+#include <map>
+
+#include <EVENT/ReconstructedParticle.h> 
+#include <EVENT/MCParticle.h>
+#include <CLHEP/Vector/LorentzVector.h>
+
+#include <JCombination.hh>
+
+
+
+namespace fasilico{
+  //namespace JFitter{
+  
+  /** 
+   *  \class JFitter
+   *  \version v0.0
+   *  \brief find best jet permutation and estimate if the
+   *         jets combination satisfy a certain creterion 
+   */
+  
+  class JFitter 
+  {     
+    
+  public:
+    JFitter();
+    ~JFitter()
+    { 
+      //delete _combination; // fixme: delete or not ? this is the question !!!
+    }
+    /// Set the LCCollection from LCIO file containing the Jet collections
+    /// @param EVENT::LCCollection
+    virtual void setJetCollection(EVENT::LCCollection* ) =0;
+    /// Set the formulat for jet fitting estimation
+    /// @pram std::string 
+    virtual const void setFormulatCriterion(std::string& )=0;
+    virtual const void setPrameters(std::vector<double> &)=0;
+    //void setPrameters(std::vector<float>  parameters){this->_parameters = parameters ;}
+    /// set an other jet oject
+    virtual const void setPFObjects(void * ) = 0; 
+    
+  private:
+    fasilico::JCombination *_combination ;
+  }; // JFitter class
+    
+  //}// JFitter namespace
+}// namespace
+#endif // JFitter_hh
