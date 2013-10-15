@@ -31,7 +31,7 @@ using namespace std;
 using namespace CLHEP;
 
 //namespace marlin{
-HistBooker *book;  
+//HistBooker *book;  
 FastMCProcessor aFastMCProcessor ;
 
 
@@ -84,10 +84,10 @@ FastMCProcessor::FastMCProcessor() : Processor("FastMCProcessor"),
 			      _EtaCut ,
 			      double( 2.66 ) ) ;
 
-  registerProcessorParameter( "CheckPlots" , 
-			      "Fast Simulation Check plots"  ,
-			      _checkPlotsFile ,
-			      std::string("FastSimCheckPlots.root"));
+  //registerProcessorParameter( "CheckPlots" , 
+  //			      "Fast Simulation Check plots"  ,
+  //			      _checkPlotsFile ,
+  //			      std::string("FastSimCheckPlots.root"));
   
   FloatVec chResDefault ;
   chResDefault.push_back( 5e-5 ) ;
@@ -155,7 +155,7 @@ void FastMCProcessor::init() {
 #endif // MARLIN_CLHEP
   
   // histogram manager
-  book = new HistBooker();
+  book = gHistBooker->global();
 }
 
 
@@ -163,7 +163,6 @@ void FastMCProcessor::processRunHeader( LCRunHeader* run) {
   _nRun++ ;
 } 
   
-
 void FastMCProcessor::processEvent( LCEvent * evt ) { 
   
   std::cout << " ====== processEvent : "<< _nEvt <<" ==== " << std::endl;
@@ -277,7 +276,7 @@ void FastMCProcessor::check( LCEvent * evt ) {
 
 void FastMCProcessor::end(){ 
   
-  book->write_histograms("./test.root");
+  //book->write_histograms("./test.root");
   
   streamlog_out( MESSAGE4 )  << "FastMCProcessor::end()  " << name() 
 			     << " processed " << _nEvt << " events in " << _nRun << " runs "

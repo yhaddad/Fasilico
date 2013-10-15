@@ -7,7 +7,7 @@
 #include "lcio.h"
 #include <string>
 
-
+#include <HistBooker.h>
 
 using namespace lcio ;
 using namespace marlin;
@@ -71,11 +71,14 @@ class FastMCProcessor : public Processor {
   /** fast sim check plots  */
   std::string _checkPlotsFile;
   
-  //! ptCut 
+  /// ptCut 
   double _ptCut;
   
-  //! ptCut 
+  /// ptCut 
   double _EtaCut;
+  
+  ///
+  HistBooker *book;  
   
   int _nRun ;
   int _nEvt ;

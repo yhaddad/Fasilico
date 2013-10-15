@@ -64,14 +64,26 @@ namespace fasilico{
       /**
        * @brief constructor
        */
-      JCombination();
+      JCombination(){};
       JCombination(int n, int k, int offset=0, bool print=false);
-    
+      
+      /**
+       * @brief destructor
+       */
+      virtual ~JCombination(){};
+      /**
+       * @brief print jet combination
+       */
       virtual void print(const std::vector<int>& v);
+      
       /**
        * @brief get the combination index.
        */
-      virtual std::vector<std::vector<int> > getConbinationVector(){return this->_out;}
+      virtual std::vector<std::vector<int> > getConbinationVector()
+      {
+	std::cout << "JCombination::Ncombination == "<< _out.size() << std::endl;
+	return _out;
+      }
       virtual int getNJCombination(); 
     
       /**
@@ -81,17 +93,17 @@ namespace fasilico{
       void setOffset(int offset){_offset = offset;}
       void setCombinationIndex(int n, int k){_n = n; _k = k;}
       void setPrintFlag(bool print=false){_print_flag = print;}
-    
+      
       //std::vector<std::vector<int> > getConbinationVector();
     
       void reset    (){_data.clear();_out.clear();_combination.clear();_n=_k=0;}
     
-      static JCombination* instance();
+      //static JCombination* instance();
     private:
-      virtual void go(int offset, int k);
+      void go(int offset, int k);
       int _offset;
       bool _print_flag;
-    
+      
       int _n,_k;
     
       std::vector<int> _data;
@@ -99,7 +111,7 @@ namespace fasilico{
       std::vector<std::vector<int> > _out;
     
     
-      static JCombination* _me;
+      //static JCombination* _me;
     }; // JCombination class
   //  }// namespace JFitter
 }// namespace

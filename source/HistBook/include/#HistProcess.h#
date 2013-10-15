@@ -1,0 +1,39 @@
+#ifndef HistProcess_h
+#define HistProcess_h 1
+
+#include "marlin/Processor.h"
+#include "lcio.h"
+#include <string>
+#include <HistBooker.h>
+
+using namespace lcio ;
+using namespace marlin ;
+
+class HistProcess : public Processor {
+  
+ public:
+  
+  virtual Processor*  newProcessor() { return new HistProcess ; }
+  HistProcess() ;
+  
+  /** Called at the begin of the job before anything is read.
+   * Use to initialize the processor, e.g. book histograms.
+   */
+  
+  virtual void init() ;
+  virtual void end()  ;
+  
+ protected:
+  /** Input collection name.
+   */
+  HistBooker* book;
+  int _nRun ;
+  int _nEvt ;
+  
+  std::string _historams_file;
+} ;
+
+#endif
+
+
+

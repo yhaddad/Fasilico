@@ -147,15 +147,36 @@ void Isolation::setCollection(LCCollection* col)
 	//-- look on the mc particle
 	const LCObjectVec&  mcps = _relNav->getRelatedToObjects( cand ) ;
 	MCParticle* mccand = dynamic_cast<MCParticle*>( mcps[0] ) ; // we have a 1-1 relation here 
-	if(fabs(mccand->getPDG()) == 13)this->_hbook->book_h1("/isolation/Pt_muon:;P_{t}",500,0,100)->Fill(p_cand.perp());
-	if(fabs(mccand->getPDG()) == 11)this->_hbook->book_h1("/isolation/Pt_electron:;P_{t}",500,0,100)->Fill(p_cand.perp());
-	if(mccand->getPDG() == 22      )this->_hbook->book_h1("/isolation/Pt_photon:;P_{t}",500,0,100)->Fill(p_cand.perp());
 	
-	//std::cout << "candidate pdg == "<< mccand->getPDG() << std::endl;
-	
-	if(mccand->getPDG() == 22      ) this->_colmap["photon"]   ->addElement( this->duplicateReco(cand) );
-	if(fabs(mccand->getPDG()) == 11) this->_colmap["electron"] ->addElement( this->duplicateReco(cand) );
-	if(fabs(mccand->getPDG()) == 13) this->_colmap["muon"]     ->addElement( this->duplicateReco(cand) );
+	std::cout << "candidate pdg == "<< mccand->getPDG() << std::endl;
+	switch(int(fabs(mccand->getPDG()))){
+	case 22:
+	  {
+	    this->_hbook->book_h1("/isolation/Pt_photon:;P_{t}",500,0,100)->Fill(p_cand.perp());
+	    this->_hbook->book_h1("/isolation/EoverP_photon:;E_{tot}/P_{track}",1000,0,100)->Fill(p_cand.e()/p_cand.v().mag());
+	    this->_colmap["photon"]   ->addElement( this->duplicateReco(cand) );
+	    col->removeElementAt(i);
+	    break;
+	  }
+	case 11:
+	  {
+	    this->_hbook->book_h1("/isolation/Pt_electron:;P_{t}",500,0,100)->Fill(p_cand.perp());
+	    this->_hbook->book_h1("/isolation/EoverP_electron:;E_{tot}/P_{track}",1000,0,100)->Fill(p_cand.e()/p_cand.v().mag());
+	    this->_colmap["electron"] ->addElement( this->duplicateReco(cand) );
+	    col->removeElementAt(i);
+	    break;
+	  }
+	case 13: // muons 
+	  {
+	    this->_hbook->book_h1("/isolation/Pt_muon:;P_{t}",500,0,100)->Fill(p_cand.perp());
+	    this->_hbook->book_h1("/isolation/EoverP_muon:;E_{tot}/P_{track}",1000,0,100)->Fill(p_cand.e()/p_cand.v().mag());
+	    if(p_cand.perp() > 15 /*GeV*/){
+	      this->_colmap["muon"]     ->addElement( this->duplicateReco(cand) );
+	      col->removeElementAt(i);
+	    }
+	    break;
+	  }
+	} 
       }
     }
   }catch(...){

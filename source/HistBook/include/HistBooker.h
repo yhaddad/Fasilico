@@ -81,16 +81,20 @@ class HistBooker
    */
   //void h1_auto_rebin(bool opt = flase);
   
+  /**
+   * @brief Reset HistBooker 
+   */
+  void reset(){_map_h1.clear();_map_h2.clear();_map_h3.clear();}
   static HistBooker* instance();
+  static HistBooker* global();
  private:
   //UInt_t _h1_option;
   std::map<std::string,TH1*> _map_h1;
   std::map<std::string,TH2*> _map_h2;
   std::map<std::string,TH3*> _map_h3;
   static HistBooker* _me;
-
-  
-  
 };
+
+extern HistBooker* gHistBooker;
 
 #endif

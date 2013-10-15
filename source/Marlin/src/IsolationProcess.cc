@@ -80,7 +80,7 @@ void IsolationProcess::init() {
   // usually a good idea to
   printParameters() ;
   
-  _hbook = new HistBooker();
+  _hbook = gHistBooker->global();
   _nRun = 0 ;
   _nEvt = 0 ;
   
@@ -140,9 +140,6 @@ void IsolationProcess::check( LCEvent * evt ) {
 
 
 void IsolationProcess::end(){
-  
-  _hbook->write_histograms("hist_control.root");
-  
   streamlog_out( MESSAGE4 )  << "IsolationProcess::end()  " << name() 
 			     << " processed " << _nEvt << " events in " << _nRun << " runs "
 			     << std::endl ;

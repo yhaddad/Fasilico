@@ -52,8 +52,8 @@ namespace fasilico{
   {     
     
   public:
-    JFitter(){;}
-    virtual ~JFitter()
+    JFitter();
+    ~JFitter()
     { 
       //delete _combination; // fixme: delete or not ? this is the question !!!
     }
@@ -64,7 +64,7 @@ namespace fasilico{
     /// @pram std::string 
     //virtual  void setFormulatCriterion(std::string&  ,int &) =0;
     //virtual  void setParameters(std::vector<double>& ) =0;
-    //void setPrameters(std::vector<float>  parameters){this->_parameters = parameters ;}
+    void setPrameters(std::vector<float>  parameters){this->_parameters = parameters ;}
     /// set an other jet oject
     //virtual const void setPFObjects(void * ) = 0; 
     

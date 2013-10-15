@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<marlin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ilcsoft.desy.de/marlin/marlin.xsd">
+  <execute>
+    <processor name="MyFastMCProcessor"/>
+    <!--processor name="MyIsolationProcess"/-->
+    <processor name="MyLCJetFinder"/>
+    <processor name="MyHistProcess"/>
+    <processor name="MyLCIOOutputProcessor"/>  
+  </execute>
+  
+  <global>
+    <parameter name="LCIOInputFiles">
+      INPUT
+    </parameter>
+    <!-- limit the number of processed records (run+evt): -->  
+    <parameter name="MaxRecordNumber" value="NEVT" />  
+    <parameter name="SkipNEvents" value="0" />  
+    <parameter name="SupressCheck" value="false" />
+    <!--parameter name="GearXMLFile"> 
+	gearfile/gear_ILD_o1_v05.xml
+	</parameter-->  
+    <parameter name="Verbosity" options="DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT"> MESSAGE  </parameter> 
+  </global>
+  
+  <processor name="MyHistProcess" type="HistProcess">
+    <parameter name="histograms_file_name" type="string">
+      HISTFILE
+    </parameter>
+  </processor>
+  
+  <processor name="MyFastMCProcessor" type="FastMCProcessor">
+    <!--FastMCProcessor creates ReconstrcutedParticles from MCParticles according to the resolution given in the steering file.-->
+    <!--Resolution of charged particles in polar angle range:  d(1/P)  th_min  th_max-->
+    <parameter name="ChargedResolution" type="FloatVec">5e-05 0 1.5708  </parameter>
+    <!--Fast Simulation Check plots-->
+    <!--Fiducial cuts on Eta-->
+    <parameter name="EtaCut" type="double">2.66 </parameter>
+    <!--Name of the MCParticle input collection-->
+    <parameter name="InputCollectionName" type="string" lcioInType="MCParticle">MCParticle </parameter>
+    <!--Name of the MCTruthMapping output collection-->
+    <parameter name="MCTruthMappingCollectionName" type="string" lcioOutType="LCRelation">MCTruthMapping </parameter>
+    <!--No reconstructed particles are produced for smaller momenta (in [GeV])-->
+    <parameter name="MomentumCut" type="float">0.001 </parameter>
+    <!--Resolution dE/E=A+B/sqrt(E/GeV) of neutral hadrons in polar angle range: A  B th_min  th_max-->
+    <parameter name="NeutralHadronResolution" type="FloatVec">0.04 0.5 0 1.5708  </parameter>
+    <!--Resolution dE/E=A+B/sqrt(E/GeV) of photons in polar angle range: A  B th_min  th_max-->
+    <parameter name="PhotonResolution" type="FloatVec">0.01 0.1 0 1.5708  </parameter>
+    <!--No reconstructed particles are produced for smaller pt(in [GeV])-->
+    <parameter name="PtCut" type="double">0 </parameter>
+    <!--Name of the ReconstructedParticles output collection-->
+    <parameter name="RecoParticleCollectionName" type="string" lcioOutType="ReconstructedParticle">ReconstructedParticles </parameter>
+    <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
+    <!--parameter name="Verbosity" type="string">DEBUG </parameter-->
+  </processor>
+  
+  <processor name="MyIsolationProcess" type="IsolationProcess">
+    <!--IsolationProcess creates ReconstrcutedParticlesaccording to the resolution given in the steering file.-->
+    <!--Name of the MCParticle input collection-->
+    <parameter name="InputCollectionName" type="string" lcioInType="MCParticle">
+      MCParticle 
+    </parameter>
+    <!--Name of the MCTruthMapping output collection-->
+    <parameter name="MCTruthMappingCollectionName" type="string" lcioOutType="LCRelation">
+      MCTruthMapping 
+    </parameter>
+    <!--Name of the ReconstructedParticles output collection-->
+    <parameter name="RecoParticleCollectionName" type="string" lcioOutType="ReconstructedParticle">
+      ReconstructedParticles 
+    </parameter>
+    <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
+    <!--parameter name="Verbosity" type="string">DEBUG </parameter-->
+    <!--cut vector-->
+    <parameter name="cut vector" type="St6vectorIdSaIdEE"> 0.6 0.00015  2.0</parameter>
+  </processor>
+  
+  
+  <processor name="MyLCIOOutputProcessor" type="LCIOOutputProcessor">
+    <parameter name="LCIOOutputFile" type="string"> 
+      OUTPUTFILE
+    </parameter>
+    <parameter name="LCIOWriteMode" type="string"> WRITE_NEW </parameter>
+  </processor>
+   
+
+
+  <processor name="MyLCJetFinder" type="LCJetFinder">
+    <!--LCJetFinder does whatever it does ...-->
+    <!--Name of the MCParticle input collection-->
+    <parameter name="InputCollectionName" type="string" lcioInType="MCParticle">
+      MCParticle 
+    </parameter>
+    <!--Name of the MCTruthMapping output collection-->
+    <parameter name="MCTruthMappingCollectionName" type="string" lcioOutType="LCRelation">
+      MCTruthMapping 
+    </parameter>
+    <!--Name of the ReconstructedParticles output collection-->
+    <parameter name="RecoParticleCollectionName" type="string" lcioOutType="ReconstructedParticle">ReconstructedParticles </parameter>
+    <!--The name of the ROOT tree-->
+    <parameter name="TreeName" type="string"> dijet </parameter>
+    <!--ROOT tree-->
+    <parameter name="TreeOutputFile" type="string">
+      JETTREE 
+    </parameter>
+    
+    <!--verbosity level of this processor ("DEBUG0-4,MESSAGE0-4,WARNING0-4,ERROR0-4,SILENT")-->
+    <!--parameter name="Verbosity" type="string">DEBUG </parameter-->
+    <!--y scan for Durham jet clustering-->
+    <parameter name="do_y_scan" type="bool">false </parameter>
+    <!--force jet clutering to find njet-->
+    <parameter name="force_cluster" type="bool">false </parameter>
+    <!--histo root-->
+    <!--number of jets ex: di-jets njet == 2 ...-->
+    <parameter name="njet_forced" type="int">2 </parameter>
+    <!--y cut for Durham jet clustering-->
+    <parameter name="ycut" type="double">0.008 </parameter>
+  </processor>
+  
+</marlin>

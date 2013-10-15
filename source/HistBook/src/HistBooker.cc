@@ -4,6 +4,8 @@
 #include <TStyle.h>
 #include <algorithm>
 
+HistBooker* gHistBooker;
+
 HistBooker* HistBooker::_me = 0;
 HistBooker* HistBooker::instance()
 {
@@ -11,6 +13,14 @@ HistBooker* HistBooker::instance()
     _me = new HistBooker;
   return _me;
 }
+
+HistBooker* HistBooker::global()
+{
+  if( gHistBooker == 0 )
+    gHistBooker = new HistBooker;
+  return gHistBooker;
+}
+
 HistBooker::HistBooker()
 {
   std::cout << " ================================" << std::endl
